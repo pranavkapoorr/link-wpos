@@ -3,255 +3,15 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>IPS-LINK WEB INTERFACE</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-        <style>
-* {
-    box-sizing: border-box;
-}
-body{
-    background-color: rgb(153,153,153);
-}
-.header{
-    margin-top: 0px;
-    width:100%;
-    background-color: white;
-     overflow: hidden;
-}
-.header h2{
-    color: #406b95;
-    font-family: Impact, Charcoal, sans-serif;
-}
-.header img {
-  float: right;
-   max-width: 75%;
-    height: auto;
-  padding-right: 5px;
-  
-  padding-bottom: 0px;
-}
-
-
-.row::after {
-    content: "";
-    clear: both;
-    display: block;
-}
-[class*="col-"] {
-    float: left;
-    padding: 5px;
-}
-html {
-    font-family: "Lucida Sans", sans-serif;
-}
-
-.menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-.menu li {
-    padding: 8px;
-    margin-bottom: 7px;
-    background-color: #33b5e5;
-    color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-.menu li:hover {
-    background-color: #0099cc;
-}
-.aside {
-    background-color: rgb(204,204,204);
-    padding: 15px;
-    color: #ffffff;
-    text-align: center;
-    font-size: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    border-width:5px;  
-    border-top-width: 1px;
-    border-left-width: 1px;
-    border-style: inset;
-    border-top-color: #4e5357;
-    border-left-color: #434547;
-    border-right-color: white;
-    border-bottom-color: whitesmoke;
-    padding: 25px;
-    margin: 10px;
-}
-
-.footer {
-    width:100%;
-    background-color: white;
-    color: darkgrey;
-    text-align: center;
-    font-size: 13px;
-    padding: 15px;
-}
-/* For desktop: */
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-
-.buttonsPanel,.detailsPanel{
-     background-color: lightgrey;
-    width: 480px;
-    border-width:5px;  
-    border-top-width: 1px;
-    border-left-width: 1px;
-    border-style: inset;
-    border-top-color: #4e5357;
-    border-left-color: #434547;
-    border-right-color: white;
-    border-bottom-color: whitesmoke;
-    padding: 25px;
-    margin: 10px;
-}
-.buttonX:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
-.buttonX{
-    width: 189px;
-     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    background-color: #4CAF50; /* Green */
-    border-style: outset;
-    border-width: 3px;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 13px;
-    margin: 8px 8px;
-    cursor: pointer;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-.details label,input {
-  display: inline-block;
-  margin-bottom:10px;
-}
-
-#statusMessageField,#receiptMessageField{
-    border-style: inset;
-    border-width:5px;  
-    border-top-width: 1px;
-    border-left-width: 2px;
-    border-style: inset;
-    border-top-color: #4e5357;
-    border-left-color: #434547;
-    border-right-color: white;
-    border-right-width: 1px;
-    border-bottom-color: #959ca2;
-}
-   
-
-
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    [class*="col-"] {
-        width: 100%;
-    }
-    .buttonsPanel,.detailsPanel{
-      width: inherit;  
-      font-size: 10px;
-      margin: 0px;
-      margin-bottom: 10px
-    };
-   #terminalIp {
-    width: 1px;
-    margin-bottom: 10px;
-    background-color: yellow;
-};
-    
-}
-</style>
-<script type="text/javascript">
-      
-    var App = angular.module('appX', []);
-		// create angular controller and pass in $scope and $http
-    App.controller("controllerX", function($scope,$interval,$http) {
-        
-        $interval(function(){
-      $http({
-    method : "GET",
-    url : "/statusMessage/"
-  }).then(function mySuccess(response) {
-      $scope.statusMessage = response.data;
-    }, function myError(response) {
-      $scope.statusMessage = response.statusText;          
-  });
-   $http({
-             method : "GET",
-             url : "/receipt/"
-                }).then(function mySuccess(response) {
-                     $scope.receipt = response.data;
-                }, function myError(response) {
-                     $scope.receipt = response.statusText;       
-            });
-  },1000);
-
-        
-      $scope.form={};
-       var actionX = function(url,dataX){
-                                   $http({
-                                          method  : 'POST',
-                                          url     : url,
-                                          params    : dataX,  // pass in data as strings
-                                         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-                                      }).then(function mySuccess(response) {
-                                             $scope.result ="successful "+response.data;
-                                            }, function myError(response) {
-                                              $scope.result = "unsuccessful"+response.status;       
-                                          });
-                  };
-            $scope.payment = function (form) {
-                actionX('/payment',form);
-            };
-                 
-            $scope.refund = function (form) {
-                actionX('/refund',form);
-            };
-            $scope.reversal = function (form) {
-                  actionX('/reversal',form);
-              };
-            $scope.dll = function (form) {
-                  actionX('/dll',form);
-              };
-            $scope.xReport = function (form) {
-                  actionX('/xreport',form);
-              };  
-            $scope.zReport = function (form) {
-                  actionX('/zreport',form);
-              };
-            $scope.terminalStatus = function (form) {
-                  actionX('/terminalstatus',form);
-              };
-            $scope.reprintReceipt = function (form) {
-                  actionX('/reprint',form);
-              };
-
-
- 
-});
-
-       
-</script>
-   
+        <title>MultiPay ltd.</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <script type="text/javascript" src="js/app.js" ></script>
 </head>
-<body ng-app="appX" ng-controller="controllerX" >
+<body  >
 
 <div class="header">
    
-    <img src="ipsx.png" alt="ipsx" width="170" height="110" /><h2>IPS-LINK POINT OF SALE</h2> 
+    <img src="ipsx.png" alt="ipsx" width="170" height="110" /><h2>POINT OF SALE</h2> 
     
 </div>
    <!-- <p th:text="'Hello, ' + ${name} + '!'" />-->
@@ -267,39 +27,49 @@ html {
     </div>
 
     <div class="col-5" >
-        <form name="formX"  ng-submit="processForm()" id="formX" >
+        <form name="formX"  id="formX" >
         <div class="detailsPanel">
-            <input  type="text" name="terminalIp" placeholder="TERMINAL IP" id="terminalIp" ng-model="form.terminalIp"/> <input type="text" name="terminalPort" placeholder="TERMINAL PORT" id="terminalPort" ng-model="form.terminalPort" /><br/>
-            <input  type="text" name="statusMessageIp" placeholder="SMESSAGE IP" id="statusMessageIp" ng-model="form.sMessageIp" /> <input  type="text" name="statusMessagePort" placeholder="SMESSAGE PORT" id="statusMessagePort" ng-model="form.sMessagePort" /><br/>
-             <input type="text" name="amount" placeholder="AMOUNT IN PENCE" id="amount" ng-model="form.amount"/> <input type="text" name="GTmessage" placeholder="GT MESSAGE" id="GTmessage" ng-model="form.GTmessage"/><br/><br/>
-             <select id="printFlag" name="printFlag" ng-model="form.printFlag">
+            <input  type="text" name="terminalIp" placeholder="TERMINAL IP" id="terminalIp" /> <input type="text" name="terminalPort" placeholder="TERMINAL PORT" id="terminalPort"  /><br/>
+            <input  type="text" name="linkIp" placeholder="LINK IP" id="linkIp"  /> <input  type="text" name="linkPort" placeholder="LINK PORT" id="linkPort" /><br/>
+             <input type="text" name="amount" placeholder="AMOUNT IN PENCE" id="amount"/> <input type="text" name="GTmessage" placeholder="GT MESSAGE" id="GTmessage" /><br/><br/>
+             <select id="printFlag" name="printFlag" >
                  <option value="1">PRINT ON ECR</option>
                  <option value="0">PRINT ON PED</option>
              </select>
-             <select id="GTbit" name="GTbit" ng-model="form.GTbit">
+             <select id="GTbit" name="GTbit" >
                  <option value="0">NORMAL</option>
                  <option value="1">ADVANCED</option>
              </select>
        </div>
         
         <div class="buttonsPanel">
-            <button  class="buttonX" type="submit" ng-click="payment(form)">PAYMENT</button>
-            <button type="button" class="buttonX" ng-click="reversal(form)">REVERSAL</button>
-            <button type="button" class="buttonX" ng-click="refund(form)">REFUND</button>
-            <button type="button" class="buttonX" ng-click="dll(form)">FIRST DLL</button>
-            <button type="button" class="buttonX" ng-click="xReport(form)">X-Report</button>
-            <button type="button" class="buttonX" ng-click="zReport(form)">Z-Report</button>
-            <button type="button" class="buttonX" ng-click="terminalStatus(form)">TERMINAL STATUS</button>
-            <button type="button" class="buttonX" ng-click="reprintReceipt(form)">REPRINT RECEIPT</button>
-            <div id="xox"> {{result}}</div>
+            <button type="button" class="buttonX" id="payment">PAYMENT</button>
+            <button type="button" class="buttonX" id="reversal">REVERSAL</button>
+            <button type="button" class="buttonX" id="refund">REFUND</button>
+            <button type="button" class="buttonX" id="firstDll">FIRST DLL</button>
+            <button type="button" class="buttonX" id="pedBalance">PED BALANCE</button>
+            <button type="button" class="buttonX" id="endofday">END OF DAY</button>
+            <button type="button" class="buttonX" id="terminalStatus">TERMINAL STATUS</button>
+            <button type="button" class="buttonX" id="reprintReceipt">REPRINT RECEIPT</button>
+            <div id="result"></div>
+            <div class="startstop">
+            <button type="button" class="buttonY color-green" id="start">Start</button>
+            <button type="button" class="buttonY color-red" id="stop">Stop</button>
+            </div>
         </div>
         </form>
     </div>
 
     <div class="col-3 right">
       <div class="aside receiptPanel">
-          <textarea id="statusMessageField" name="statusMessageField" rows="3" cols="30" >{{statusMessage}}</textarea>
-          <textarea id="receiptMessageField" name="receiptMessageField" rows="25" cols="30" >{{receipt}}</textarea>
+          <div>
+          <textarea id="statusMessageField" name="statusMessageField" rows="3" cols="30" ></textarea>
+          </div>
+          <div>
+          <textarea id="receiptMessageField" name="receiptMessageField" rows="29" cols="30" ></textarea>
+          </div>
+          
+          
       </div>
 </div>
 

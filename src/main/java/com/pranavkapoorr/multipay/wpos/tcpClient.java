@@ -62,11 +62,13 @@ public class tcpClient extends AbstractActor {
 		        return receiveBuilder()
 		               .match(Received.class, msg->{
 		            	   String message = msg.data().utf8String();
+		            	   			System.out.println("incoming from Link -> "+message);
 		            	   			session.sendMessage(new TextMessage(message));
-                                       DataBase.getDataBaseReceiptMessage().put(senderId,message);
+                                       //DataBase.getDataBaseReceiptMessage().put(senderId,message);
                                     
 		               })
 		               .match(String.class,msg->{
+		            	   			System.out.println("outgoing string to Link -> " +msg);
                                     serverConnection.tell(TcpMessage.write(ByteString.fromString(msg)), getSelf());
                 		})
 		               .match(ConnectionClosed.class, closed->{
