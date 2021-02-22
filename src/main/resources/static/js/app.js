@@ -2,7 +2,7 @@ window.onload=function(){
 	if ("WebSocket" in window) {
 		
 		var connected = false;
-		var ws = new WebSocket('ws://localhost:8080/ips-epos');
+		var ws = new WebSocket('ws://0.0.0.0:8080/ips-epos');
 		var pedIp = document.getElementById('terminalIp');
 		var pedPort = document.getElementById('terminalPort');
 		var amount = document.getElementById('amount');
