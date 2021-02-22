@@ -1,6 +1,7 @@
 window.onload=function(){
 	if ("WebSocket" in window) {
-
+		
+		var connected = false;
 		var ws = new WebSocket('ws://localhost:8080/ips-epos');
 		var pedIp = document.getElementById('terminalIp');
 		var pedPort = document.getElementById('terminalPort');
@@ -17,6 +18,10 @@ window.onload=function(){
 		var firstDll = document.getElementById('firstDll');
 		var terminalStatus = document.getElementById('terminalStatus');
 		var reprintReceipt = document.getElementById('reprintReceipt');
+		var start = document.getElementById('start');
+		var stop = document.getElementById('stop');
+		var linkIp = document.getElementById('linkIp');
+		var linkPort = document.getElementById('linkPort');
 		ws.onopen = function(stat) {
 
 			console.log('connection: '+stat.data);
@@ -34,6 +39,15 @@ window.onload=function(){
 				//var msg = JSON.parse(received_msg);
 				receiptField.innerHTML = received_msg;
 			}
+			else if(received_msg.includes('Connected')){
+				connected = true;
+			}
+			else if(received_msg.includes('Connection Failed')){
+				connected = false;
+			}
+			else if(received_msg.includes('Connection Closed')){
+				connected = false;
+			}
 			//receiptField.innerHTML = received_msg;
 		};
 
@@ -49,24 +63,60 @@ window.onload=function(){
 		reversal.addEventListener("click", function(e){ alert("reversal"); });
 		refund.addEventListener("click", function(e){ alert("refund"); });
 		pedBalance.addEventListener("click", function(e){ 
-			var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-			ws.send(msg);
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
 		});
 		endofday.addEventListener("click", function(e){ 
-			var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-			ws.send(msg);
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
 		});
 		terminalStatus.addEventListener("click", function(e){ 
-			var msg = '{"printFlag":"' + printFlag.value +'","operationType":"TerminalStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-			ws.send(msg);
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"TerminalStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
 		});
 		firstDll.addEventListener("click", function(e){ 
-			var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-			ws.send(msg);
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
 		});
 		reprintReceipt.addEventListener("click", function(e){ 
-			var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-			ws.send(msg);
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
+		});
+		stop.addEventListener("click", function(e){ 
+			if(connected){
+				var msg = '{"Stop":"stop"}';
+				ws.send(msg);
+			}else{
+				alert("No Active connection to stop!")
+			}
+		});
+		start.addEventListener("click", function(e){ 
+			if(!connected){
+				var msg = '{"Start":"'+ linkIp.value + '-' + linkPort.value +'"}';
+				ws.send(msg);
+			}else{
+				alert("already connected!")
+			}
 		});
 	} else {
 

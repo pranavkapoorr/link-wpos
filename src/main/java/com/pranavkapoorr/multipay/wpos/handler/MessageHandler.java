@@ -42,9 +42,14 @@ public class MessageHandler extends TextWebSocketHandler{
 			if(isValidJSON(msg, mapper)) {
 				
 				if(msg.contains("Start")){
-					//will implement later
+					String ip = msg.substring(msg.indexOf(":\"")+2,msg.indexOf("-")).trim();
+					String port = msg.substring(msg.indexOf("-")+1,msg.lastIndexOf("\""));
+					ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress(ip, Integer.valueOf(port)),session));
+					//ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress("192.168.86.60", 40001),session));
+					sessions.put(session,tcpSender);
 				}else if(msg.contains("Stop")){
-					//will implement later
+					ActorRef tcpSender = sessions.get(session);
+					tcpSender.tell(PoisonPill.getInstance(), ActorRef.noSender());//killing connection
 				}else if(msg.contains("Payment")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
 					service.payment(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
@@ -81,16 +86,17 @@ public class MessageHandler extends TextWebSocketHandler{
 	}
 
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+	public void afterConnectionEstablished(WebSocketSession session){
 		//adding session to session list on connect
-	    ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress("192.168.86.60", 40001),session));
-		sessions.put(session,tcpSender);
+		//sessions.put(session,ActorRef.noSender());
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		//removing session from session list on connection end
-		sessions.get(session).tell(PoisonPill.getInstance(), ActorRef.noSender());//killing connection
+		if(sessions.get(session) != null) {
+			sessions.get(session).tell(PoisonPill.getInstance(), ActorRef.noSender());//killing connection incase user refreshes page
+		}
 		sessions.remove(session);
 	}
 	

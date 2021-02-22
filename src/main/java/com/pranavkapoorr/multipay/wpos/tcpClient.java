@@ -46,12 +46,11 @@ public class tcpClient extends AbstractActor {
 		public Receive createReceive() {
 			return receiveBuilder()
 				.match(CommandFailed.class, conn->{
-						MainController.statusMessage=(conn.causedByString());
-                                                MainController.receipt="";
+					session.sendMessage(new TextMessage("Connection Failed"));
 						getContext().stop(getSelf());
 					})
 				.match(Connected.class, conn->{
-                                  //  MainController.statusMessage=(conn.toString());
+                        session.sendMessage(new TextMessage("Connected"));
 			            getSender().tell(TcpMessage.register(getSelf()), getSelf());
 			            getContext().become(connected(getSender()));
 			            
@@ -72,8 +71,7 @@ public class tcpClient extends AbstractActor {
                                     serverConnection.tell(TcpMessage.write(ByteString.fromString(msg)), getSelf());
                 		})
 		               .match(ConnectionClosed.class, closed->{
-                                    MainController.statusMessage = ("connectin cLOSED:"+closed);
-                                    MainController.receipt="";
+		            	   session.sendMessage(new TextMessage("Connection Closed"));
                                     getContext().stop(getSelf());
 		               })
                                 .match(CommandFailed.class, conn->{
