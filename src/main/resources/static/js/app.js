@@ -58,10 +58,29 @@ window.onload=function(){
 		};
 
 		payment.addEventListener("click", function(e){ 
-
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
 		});
-		reversal.addEventListener("click", function(e){ alert("reversal"); });
-		refund.addEventListener("click", function(e){ alert("refund"); });
+		reversal.addEventListener("click", function(e){ 
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
+			});
+		refund.addEventListener("click", function(e){ 
+			if(connected){
+				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+				ws.send(msg);
+			}else{
+				alert("start the connection then try again!")
+			}
+		});
 		pedBalance.addEventListener("click", function(e){ 
 			if(connected){
 				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
