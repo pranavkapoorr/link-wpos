@@ -2,7 +2,7 @@ window.onload=function(){
 	if ("WebSocket" in window) {
 		
 		var connected = false;
-		var ws = new WebSocket('wss://0.0.0.0/ips-epos');
+		var ws = new WebSocket('wss://ips-link-service.herokuapp.com/ips-epos');
 		var pedIp = document.getElementById('terminalIp');
 		var pedPort = document.getElementById('terminalPort');
 		var amount = document.getElementById('amount');
