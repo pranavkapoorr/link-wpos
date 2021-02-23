@@ -14,7 +14,10 @@
     <img src="ipsx.png" alt="ipsx" width="170" height="110" /><h2>POINT OF SALE</h2> 
     
 </div>
-   <!-- <p th:text="'Hello, ' + ${name} + '!'" />-->
+<div class="alert" id="alert">
+  <span class="closebtn" id='closebtn' onclick="this.parentElement.style.display='none';">&times;</span>
+  
+</div>
 <div class="row">
 
     <div class="col-2 menu">
@@ -35,10 +38,6 @@
              <select id="printFlag" name="printFlag" >
                  <option value="1">PRINT ON ECR</option>
                  <option value="0">PRINT ON PED</option>
-             </select>
-             <select id="GTbit" name="GTbit" >
-                 <option value="0">NORMAL</option>
-                 <option value="1">ADVANCED</option>
              </select>
        </div>
         
@@ -66,7 +65,7 @@
           <textarea id="statusMessageField" name="statusMessageField" rows="3" cols="30" ></textarea>
           </div>
           <div>
-          <textarea id="receiptMessageField" name="receiptMessageField" rows="29" cols="30" ></textarea>
+          <textarea id="receiptMessageField" name="receiptMessageField" rows="27" cols="30" ></textarea>
           </div>
           
           

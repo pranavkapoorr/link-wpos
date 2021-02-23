@@ -2,6 +2,7 @@ window.onload=function(){
 	if ("WebSocket" in window) {
 		
 		var connected = false;
+		//var ws = new WebSocket('ws://localhost/ips-epos');
 		var ws = new WebSocket('wss://ips-link-service.herokuapp.com/ips-epos');
 		var pedIp = document.getElementById('terminalIp');
 		var pedPort = document.getElementById('terminalPort');
@@ -11,8 +12,8 @@ window.onload=function(){
 		var receiptField = document.getElementById('receiptMessageField');
 		var statusMessageField = document.getElementById('statusMessageField');
 		var payment = document.getElementById('payment');
-		var reversal = document.getElementById('refund');
-		var refund = document.getElementById('printFlag');
+		var reversal = document.getElementById('reversal');
+		var refund = document.getElementById('refund');
 		var pedBalance = document.getElementById('pedBalance');
 		var endofday = document.getElementById('endofday');
 		var firstDll = document.getElementById('firstDll');
@@ -22,11 +23,11 @@ window.onload=function(){
 		var stop = document.getElementById('stop');
 		var linkIp = document.getElementById('linkIp');
 		var linkPort = document.getElementById('linkPort');
+		var alertbox = document.getElementById('alert');
 		ws.onopen = function(stat) {
 
 			console.log('connection: '+stat.data);
 
-			//ws.send('{"printFlag":"1","operationType":"PedBalance","pedIp":"192.168.86.199","pedPort":"40001","timeOut":"120"}');
 		};
 
 		ws.onmessage = function (evt) { 
@@ -41,6 +42,9 @@ window.onload=function(){
 			}
 			else if(received_msg.includes('Connected')){
 				connected = true;
+				alertbox.style.display = 'block';
+				alertbox.style.backgroundColor = 'green';
+				document.getElementById('closebtn').insertAdjacentHTML("afterend", "Connected");
 			}
 			else if(received_msg.includes('Connection Failed')){
 				connected = false;
@@ -59,64 +63,97 @@ window.onload=function(){
 
 		payment.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
-				ws.send(msg);
+				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		reversal.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
+				
 			}else{
 				alert("start the connection then try again!")
 			}
 			});
 		refund.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
-				ws.send(msg);
+				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		pedBalance.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		endofday.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		terminalStatus.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"TerminalStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"operationType":"TerminalStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}	
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		firstDll.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
 			}else{
 				alert("start the connection then try again!")
 			}
 		});
 		reprintReceipt.addEventListener("click", function(e){ 
 			if(connected){
-				var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
-				ws.send(msg);
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}	
 			}else{
 				alert("start the connection then try again!")
 			}
@@ -125,14 +162,20 @@ window.onload=function(){
 			if(connected){
 				var msg = '{"Stop":"stop"}';
 				ws.send(msg);
+				connected = false;
 			}else{
 				alert("No Active connection to stop!")
 			}
 		});
 		start.addEventListener("click", function(e){ 
 			if(!connected){
-				var msg = '{"Start":"'+ linkIp.value + '-' + linkPort.value +'"}';
-				ws.send(msg);
+				if(linkIp.value.length > 0 && linkPort.value.length > 0){
+					var msg = '{"Start":"'+ linkIp.value + '-' + linkPort.value +'"}';
+					ws.send(msg);
+				}else{
+					alert('please enter link-service Ip and Port');
+				}
+				
 			}else{
 				alert("already connected!")
 			}
