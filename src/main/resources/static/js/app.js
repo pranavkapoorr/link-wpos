@@ -17,7 +17,7 @@ window.onload=function(){
 		var pedBalance = document.getElementById('pedBalance');
 		var endofday = document.getElementById('endofday');
 		var firstDll = document.getElementById('firstDll');
-		var terminalStatus = document.getElementById('terminalStatus');
+		var pedStatus = document.getElementById('pedStatus');
 		var reprintReceipt = document.getElementById('reprintReceipt');
 		var start = document.getElementById('start');
 		var stop = document.getElementById('stop');
@@ -36,7 +36,7 @@ window.onload=function(){
 			if(received_msg.includes('statusMessage')){
 				var msg = JSON.parse(received_msg);
 				statusMessageField.innerHTML = msg.statusMessage;
-			}else if(received_msg.includes('terminalId')){
+			}else if(received_msg.includes('terminalId') || received_msg.includes('pedConnectivity') ){
 				//var msg = JSON.parse(received_msg);
 				receiptField.innerHTML = received_msg;
 			}
@@ -122,10 +122,10 @@ window.onload=function(){
 				alert("start the connection then try again!")
 			}
 		});
-		terminalStatus.addEventListener("click", function(e){ 
+		pedStatus.addEventListener("click", function(e){ 
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"operationType":"TerminalStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"1","operationType":"PedStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');

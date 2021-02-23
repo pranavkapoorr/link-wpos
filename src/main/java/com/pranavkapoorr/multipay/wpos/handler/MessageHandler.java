@@ -77,9 +77,9 @@ public class MessageHandler extends TextWebSocketHandler{
 				}else if(msg.contains("ReprintReceipt")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
 					service.reprintReceipt(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
-				}else if(msg.contains("TerminalStatus")) {
+				}else if(msg.contains("PedStatus")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.terminalStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.pedStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
 				}
 			//}
 		}

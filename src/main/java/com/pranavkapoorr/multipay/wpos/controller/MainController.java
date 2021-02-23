@@ -135,7 +135,7 @@ public class MainController {
             @RequestParam(value="amount")String amount, @RequestParam(value="printFlag")String printFlag, @RequestParam(value="GTbit")String GTbit,@RequestParam(value="GTmessage",defaultValue = "none")String GTmessage) throws InterruptedException, JsonProcessingException{
        statusMessage="";
        receipt="";
-       service.terminalStatus(terminalIp, terminalPort, printFlag, Application.tcpSender);
+       service.pedStatus(terminalIp, terminalPort, printFlag, Application.tcpSender);
         return "terminalStatus";
     }
     @RequestMapping(value="/reprint", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)

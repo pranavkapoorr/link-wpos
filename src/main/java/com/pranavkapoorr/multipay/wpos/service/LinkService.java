@@ -23,8 +23,8 @@ public class LinkService {
 		String msg = makeMessage(null, pedIp, pedPort, GTmessage, printFlag, "Reversal");
        	tcpSender.tell(msg, Application.tcpSender);
 	}
-	public void terminalStatus(String pedIp,String pedPort,String printFlag,ActorRef tcpSender) throws JsonProcessingException {
-		String msg = makeMessage(null, pedIp, pedPort, null, printFlag, "TerminalStatus");
+	public void pedStatus(String pedIp,String pedPort,String printFlag,ActorRef tcpSender) throws JsonProcessingException {
+		String msg = makeMessage(null, pedIp, pedPort, null, printFlag, "PedStatus");
        	tcpSender.tell(msg, Application.tcpSender);
 	}
 	public void xReport(String pedIp,String pedPort,String printFlag,ActorRef tcpSender) throws JsonProcessingException {
