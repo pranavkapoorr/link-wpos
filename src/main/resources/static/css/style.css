@@ -232,7 +232,7 @@ html {
     width: 1px;
     margin-bottom: 10px;
     background-color: yellow;
-};
+	};
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
@@ -240,29 +240,81 @@ html {
     /* [class*="col-"] {
         width: 100%;
     };*/
-    .buttonsPanel,.detailsPanel, .aside{
-      width: 380px;  
-      font-size: 9px;
-      margin: 0px;
-      margin-bottom: 10px
-    };
-   .buttonX {
-    width: 100px;
+    .buttonsPanel,.detailsPanel{
+    background-color: lightgrey;
+    width: 455px;
+    border-width:5px;  
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: inset;
+    border-top-color: #4e5357;
+    border-left-color: #434547;
+    border-right-color: white;
+    border-bottom-color: whitesmoke;
+    padding: 15px;
+    margin: 10px;
+	}
+	.aside{
+	background-color: rgb(204,204,204);
+    padding: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-width:5px;  
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: inset;
+    border-top-color: #4e5357;
+    border-left-color: #434547;
+    border-right-color: white;
+    border-bottom-color: whitesmoke;
+    padding: 15px;
+    margin-top: 10px;
+    height:66vh;
+    width: 26vw;
+    margin-left: 60px
+    
+	}
+.buttonX:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.buttonX{
+    width: 189px;
      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    background-color: red; /* Green */
+    background-color: #4CAF50; /* Green */
     border-style: outset;
     border-width: 3px;
     color: white;
-    padding: 0 0;
+    padding: 11px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 9px;
-    margin: 4px 4px;
+    font-size: 13px;
+    margin: 8px 8px;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
-};
-
+}
+.buttonY {
+	width: 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #c0c0c0; 
+    border-style: outset;
+    border-width: 3px;
+    color: white;
+    padding: 4px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight:bold;
+    margin: 8px 5px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+	
+	
 }
 
