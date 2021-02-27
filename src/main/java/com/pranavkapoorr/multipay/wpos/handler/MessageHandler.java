@@ -89,6 +89,7 @@ public class MessageHandler extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session){
 		//adding session to session list on connect
 		//sessions.put(session,ActorRef.noSender());
+		//System.err.println("session: "+session.getId());
 	}
 	
 	@Override

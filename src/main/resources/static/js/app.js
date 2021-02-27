@@ -2,8 +2,10 @@ window.onload=function(){
 	if ("WebSocket" in window) {
 		
 		var connected = false;
-		//var ws = new WebSocket('ws://localhost/ips-epos');
-		var ws = new WebSocket('wss://ips-link-service.herokuapp.com/ips-epos');
+		var ip = window.location.hostname;
+		var ws = new WebSocket('wss://' + ip + '/ips-epos');
+		//var ws = new WebSocket('wss://ips-link-service.herokuapp.com/ips-epos');
+		//var ws = new WebSocket('wss://echo.websocket.org');
 		var pedIp = document.getElementById('terminalIp');
 		var pedPort = document.getElementById('terminalPort');
 		var amount = document.getElementById('amount');
@@ -24,19 +26,16 @@ window.onload=function(){
 		var linkIp = document.getElementById('linkIp');
 		var linkPort = document.getElementById('linkPort');
 		var alertbox = document.getElementById('alert');
-		
 		function clearAll(){
 			statusMessageField.innerHTML = '';
 			receiptField.innerHTML = '';
 		}
-		
 		ws.onopen = function(stat) {
-
 			console.log('connection: '+stat.data);
-
 		};
 
 		ws.onmessage = function (evt) { 
+			
 			var received_msg = evt.data;
 			//console.log('incoming> '+received_msg);
 			if(received_msg.includes('statusMessage')){
@@ -187,7 +186,8 @@ window.onload=function(){
 				alert("No Active connection to stop!")
 			}
 		});
-		start.addEventListener("click", function(e){ 
+		start.addEventListener("click", function(e){
+			alert(connected);
 			if(!connected){
 				if(linkIp.value.length > 0 && linkPort.value.length > 0){
 					var msg = '{"Start":"'+ linkIp.value + '-' + linkPort.value +'"}';
