@@ -3,7 +3,7 @@ window.onload=function(){
 		
 		var connected = false;
 		var ip = window.location.hostname;
-		var ws = new WebSocket('wss://' + ip + '/ips-epos');
+		var ws = new WebSocket('ws://' + ip + '/ips-epos');
 		//var ws = new WebSocket('wss://ips-link-service.herokuapp.com/ips-epos');
 		//var ws = new WebSocket('wss://echo.websocket.org');
 		var pedIp = document.getElementById('terminalIp');
@@ -49,19 +49,19 @@ window.onload=function(){
 				connected = true;
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'green';
-				document.getElementById('closebtn').insertAdjacentHTML("afterend", "Connected");
+				document.getElementById('alert-msg').innerHTML = received_msg;
 			}
 			else if(received_msg.includes('Connection Failed')){
 				connected = false;
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'red';
-				document.getElementById('closebtn').insertAdjacentHTML("afterend", "Connection Failed");
+				document.getElementById('alert-msg').innerHTML = received_msg;
 			}
 			else if(received_msg.includes('Connection Closed')){
 				connected = false;
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'red';
-				document.getElementById('closebtn').insertAdjacentHTML("afterend", "Connection Closed");
+				document.getElementById('alert-msg').innerHTML = received_msg;
 			}
 			//receiptField.innerHTML = received_msg;
 		};
@@ -187,7 +187,6 @@ window.onload=function(){
 			}
 		});
 		start.addEventListener("click", function(e){
-			alert(connected);
 			if(!connected){
 				if(linkIp.value.length > 0 && linkPort.value.length > 0){
 					var msg = '{"Start":"'+ linkIp.value + '-' + linkPort.value +'"}';

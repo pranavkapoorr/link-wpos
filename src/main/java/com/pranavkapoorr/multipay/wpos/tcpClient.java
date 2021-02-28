@@ -3,6 +3,8 @@ package com.pranavkapoorr.multipay.wpos;
 
 import akka.NotUsed;
 import java.net.InetSocketAddress;
+import java.sql.Timestamp;
+
 import akka.actor.*;
 import akka.io.*;
 import akka.util.ByteString;
@@ -46,11 +48,11 @@ public class tcpClient extends AbstractActor {
 		public Receive createReceive() {
 			return receiveBuilder()
 				.match(CommandFailed.class, conn->{
-					session.sendMessage(new TextMessage("Connection Failed"));
+					session.sendMessage(new TextMessage("Connection Failed -> " + getTimeStamp()));
 						getContext().stop(getSelf());
 					})
 				.match(Connected.class, conn->{
-                        session.sendMessage(new TextMessage("Connected"));
+                        session.sendMessage(new TextMessage("Connected -> " + getTimeStamp()));
 			            getSender().tell(TcpMessage.register(getSelf()), getSelf());
 			            getContext().become(connected(getSender()));
 			            
@@ -71,11 +73,11 @@ public class tcpClient extends AbstractActor {
                                     serverConnection.tell(TcpMessage.write(ByteString.fromString(msg)), getSelf());
                 		})
 		               .match(ConnectionClosed.class, closed->{
-		            	   session.sendMessage(new TextMessage("Connection Closed"));
+		            	   session.sendMessage(new TextMessage("Connection Closed -> " + getTimeStamp()));
                                     getContext().stop(getSelf());
 		               })
                                 .match(CommandFailed.class, conn->{
-                                     MainController.statusMessage=("connectin Failed:"+conn);
+                                     MainController.statusMessage=("connectin Failed -> " + getTimeStamp());
                                      MainController.receipt="";
                                      getContext().stop(getSelf());
                         	})
@@ -86,8 +88,11 @@ public class tcpClient extends AbstractActor {
     public void postStop() throws Exception {
         System.out.println("stopping tcp client!!");//To change body of generated methods, choose Tools | Templates.
     }
-                
+    
+    private String getTimeStamp() {
+    	return new Timestamp(System.currentTimeMillis()).toString();
+    }
 			
-	}
+}
 
 
