@@ -11,8 +11,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pranavkapoorr.multipay.wpos.tcpClient;
-import com.pranavkapoorr.multipay.wpos.app.Application;
+import com.pranavkapoorr.multipay.wpos.TcpClient;
 import com.pranavkapoorr.multipay.wpos.model.IpsJson;
 import com.pranavkapoorr.multipay.wpos.service.LinkService;
 
@@ -34,7 +33,7 @@ public class MessageHandler extends TextWebSocketHandler{
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message)
 			throws InterruptedException, IOException {
-		System.err.println("sesion*************************** ->  "+session.getId() +  message.getPayload());
+		//System.err.println("sesion*************************** ->  "+session.getId() +  message.getPayload());
 		
 		String msg = message.getPayload();
 		//for(WebSocketSession webSocketSession : sessions) {
@@ -44,7 +43,7 @@ public class MessageHandler extends TextWebSocketHandler{
 				if(msg.contains("Start")){
 					String ip = msg.substring(msg.indexOf(":\"")+2,msg.indexOf("-")).trim();
 					String port = msg.substring(msg.indexOf("-")+1,msg.lastIndexOf("\""));
-					ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress(ip, Integer.valueOf(port)),session));
+					ActorRef tcpSender = system.actorOf(TcpClient.props(new InetSocketAddress(ip, Integer.valueOf(port)),session));
 					//ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress("192.168.86.60", 40001),session));
 					sessions.put(session,tcpSender);
 				}else if(msg.contains("Stop")){
@@ -80,6 +79,9 @@ public class MessageHandler extends TextWebSocketHandler{
 				}else if(msg.contains("PedStatus")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
 					service.pedStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+				}else if(msg.contains("LastTransactionStatus")) {
+					IpsJson json = mapper.readValue(msg, IpsJson.class);
+					service.lastTransStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
 				}
 			//}
 		}

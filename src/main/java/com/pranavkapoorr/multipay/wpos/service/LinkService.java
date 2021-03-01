@@ -27,6 +27,10 @@ public class LinkService {
 		String msg = makeMessage(null, pedIp, pedPort, null, printFlag, "PedStatus");
        	tcpSender.tell(msg, Application.tcpSender);
 	}
+	public void lastTransStatus(String pedIp,String pedPort,String printFlag,ActorRef tcpSender) throws JsonProcessingException {
+		String msg = makeMessage(null, pedIp, pedPort, null, printFlag, "LastTransactionStatus");
+       	tcpSender.tell(msg, Application.tcpSender);
+	}
 	public void xReport(String pedIp,String pedPort,String printFlag,ActorRef tcpSender) throws JsonProcessingException {
 		String msg = makeMessage(null, pedIp, pedPort, null, printFlag, "PedBalance");
        	tcpSender.tell(msg, Application.tcpSender);

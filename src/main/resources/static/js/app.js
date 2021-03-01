@@ -19,7 +19,10 @@ window.onload=function(){
 		var pedBalance = document.getElementById('pedBalance');
 		var endofday = document.getElementById('endofday');
 		var firstDll = document.getElementById('firstDll');
+		var updateDll = document.getElementById('updateDll');
 		var pedStatus = document.getElementById('pedStatus');
+		var probePed = document.getElementById('probePed');
+		var lastTransStatus = document.getElementById('lastTransStatus');
 		var reprintReceipt = document.getElementById('reprintReceipt');
 		var start = document.getElementById('start');
 		var stop = document.getElementById('stop');
@@ -28,7 +31,6 @@ window.onload=function(){
 		var alertbox = document.getElementById('alert');
 		var print = document.getElementById('print');
 		function printElem(){
-			alert('test')
 		    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
 		    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
@@ -61,7 +63,12 @@ window.onload=function(){
 			if(received_msg.includes('statusMessage')){
 				var msg = JSON.parse(received_msg);
 				statusMessageField.innerHTML = msg.statusMessage;
-			}else if(received_msg.includes('terminalId') || received_msg.includes('pedConnectivity') || received_msg.includes('receipt') || received_msg.includes('errorCode') ){
+			}else if(received_msg.includes('terminalId') || 
+					received_msg.includes('pedConnectivity') || 
+					received_msg.includes('receipt') || 
+					received_msg.includes('errorCode') ||
+					received_msg.includes('operationType')
+					){
 				//var msg = JSON.parse(received_msg);
 				receiptField.innerHTML = received_msg;
 			}
@@ -171,11 +178,50 @@ window.onload=function(){
 				alert("start the connection then try again!")
 			}
 		});
+		probePed.addEventListener("click", function(e){
+			clearAll();
+			if(connected){
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"1","operationType":"ProbePed","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}	
+			}else{
+				alert("start the connection then try again!")
+			}
+		});
+		lastTransStatus.addEventListener("click", function(e){
+			clearAll();
+			if(connected){
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"1","operationType":"LastTransactionStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}	
+			}else{
+				alert("start the connection then try again!")
+			}
+		});
 		firstDll.addEventListener("click", function(e){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
 					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					ws.send(msg);
+				}else{
+					alert('check all the fields first!');
+				}
+			}else{
+				alert("start the connection then try again!")
+			}
+		});
+		updateDll.addEventListener("click", function(e){
+			clearAll();
+			if(connected){
+				if(pedIp.value.length > 0 && pedPort.value.length > 0){
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"UpdateDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
