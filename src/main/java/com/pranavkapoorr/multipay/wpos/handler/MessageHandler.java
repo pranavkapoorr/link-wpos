@@ -58,7 +58,7 @@ public class MessageHandler extends TextWebSocketHandler{
 					service.refund(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
 				}else if(msg.contains("Reversal")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.reversal(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.reversal(json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
 				}else if(msg.contains("FirstDll")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
 					service.firstDLL(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));

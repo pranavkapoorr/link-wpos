@@ -41,7 +41,7 @@ window.onload=function(){
 			if(received_msg.includes('statusMessage')){
 				var msg = JSON.parse(received_msg);
 				statusMessageField.innerHTML = msg.statusMessage;
-			}else if(received_msg.includes('terminalId') || received_msg.includes('pedConnectivity') || received_msg.includes('receipt') ){
+			}else if(received_msg.includes('terminalId') || received_msg.includes('pedConnectivity') || received_msg.includes('receipt') || received_msg.includes('errorCode') ){
 				//var msg = JSON.parse(received_msg);
 				receiptField.innerHTML = received_msg;
 			}
@@ -67,16 +67,16 @@ window.onload=function(){
 		};
 
 		ws.onclose = function() { 
-
-
-			console.log("Connection is closed..."); 
+			if(confirm("Connection Issues - Please Refresh Page!")){
+				location.reload();
+			}
 		};
 
 		payment.addEventListener("click", function(e){
 			clearAll();
 			if(connected){
 				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -89,7 +89,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -103,7 +103,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
