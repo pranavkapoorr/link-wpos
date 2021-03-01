@@ -34,7 +34,7 @@
         <div class="detailsPanel">
             <input  type="text" name="linkIp" placeholder="LINK IP" id="linkIp"  /> <input  type="text" name="linkPort" placeholder="LINK PORT" id="linkPort" /><br/>
              <input  type="text" name="terminalIp" placeholder="TERMINAL IP" id="terminalIp" /> <input type="text" name="terminalPort" placeholder="TERMINAL PORT" id="terminalPort"  /><br/>
-            <input type="text" name="amount" placeholder="AMOUNT IN PENCE" id="amount"/> <input type="text" name="GTmessage" placeholder="GT MESSAGE" id="GTmessage" /><br/><br/>
+            <input type="text" name="amount" placeholder="AMOUNT IN PENCE" id="amount"/> <input type="text" name="GTmessage" placeholder="Data for GT" id="GTmessage" /><br/><br/>
              <select id="printFlag" name="printFlag" >
                  <option value="1">PRINT ON ECR</option>
                  <option value="0">PRINT ON PED</option>
@@ -45,11 +45,14 @@
             <button type="button" class="buttonX" id="payment">PAYMENT</button>
             <button type="button" class="buttonX" id="reversal">REVERSAL</button>
             <button type="button" class="buttonX" id="refund">REFUND</button>
-            <button type="button" class="buttonX" id="firstDll">FIRST DLL</button>
+            <button type="button" class="buttonX" id="reprintReceipt">REPRINT RECEIPT</button>
             <button type="button" class="buttonX" id="pedBalance">PED BALANCE</button>
             <button type="button" class="buttonX" id="endofday">END OF DAY</button>
+            <button type="button" class="buttonX" id="firstDll">FIRST DLL</button>
+            <button type="button" class="buttonX" id="updateDll">UPDATE DLL</button>
             <button type="button" class="buttonX" id="pedStatus">PED STATUS</button>
-            <button type="button" class="buttonX" id="reprintReceipt">REPRINT RECEIPT</button>
+            <button type="button" class="buttonX" id="lastTransStatus">LAST TRANS STATUS</button>
+            <button type="button" class="buttonZ" id="probePed">PROBE PED</button>
             <div id="result"></div>
             <div class="startstop">
             <button type="button" class="buttonY color-green" id="start">Start</button>
@@ -65,9 +68,11 @@
           <textarea id="statusMessageField" name="statusMessageField" rows="3" cols="30" ></textarea>
           </div>
           <div>
-          <textarea id="receiptMessageField" name="receiptMessageField" rows="27" cols="30" ></textarea>
+          <textarea id="receiptMessageField" name="receiptMessageField" rows="30" cols="30" ></textarea>
           </div>
-          
+          <div class="startstop">
+          <button class="print" id='print'>Print</button>
+          </div>
           
       </div>
 </div>

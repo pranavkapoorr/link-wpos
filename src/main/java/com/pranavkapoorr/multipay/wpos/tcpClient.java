@@ -77,8 +77,7 @@ public class tcpClient extends AbstractActor {
                                     getContext().stop(getSelf());
 		               })
                                 .match(CommandFailed.class, conn->{
-                                     MainController.statusMessage=("connectin Failed -> " + getTimeStamp());
-                                     MainController.receipt="";
+        
                                      getContext().stop(getSelf());
                         	})
                                     .build();

@@ -26,6 +26,26 @@ window.onload=function(){
 		var linkIp = document.getElementById('linkIp');
 		var linkPort = document.getElementById('linkPort');
 		var alertbox = document.getElementById('alert');
+		var print = document.getElementById('print');
+		function printElem(){
+			alert('test')
+		    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+		    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+		    mywindow.document.write('</head><body >');
+		    mywindow.document.write('<h1>' + document.title  + '</h1>');
+		    mywindow.document.write(document.getElementById('receiptMessageField').innerHTML);
+		    mywindow.document.write('</body></html>');
+
+		    mywindow.document.close(); // necessary for IE >= 10
+		    mywindow.focus(); // necessary for IE >= 10*/
+
+		    mywindow.print();
+		    mywindow.close();
+
+		    return true;
+		}
+		
 		function clearAll(){
 			statusMessageField.innerHTML = '';
 			receiptField.innerHTML = '';
@@ -199,10 +219,15 @@ window.onload=function(){
 				alert("already connected!")
 			}
 		});
+		print.addEventListener("click", function(e){
+			printElem();
+		});
 	} else {
 
 		// The browser doesn't support WebSocket
 		alert("Application NOT supported by your Browser!");
 	}
+	
+	
 }
 

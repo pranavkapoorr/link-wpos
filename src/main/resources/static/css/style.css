@@ -68,7 +68,7 @@ html {
     border-right-color: white;
     border-bottom-color: whitesmoke;
     padding: 25px;
-    margin-top: 10px
+    margin-top: 10px;
     /*margin: 10px;*/
 }
 
@@ -149,15 +149,64 @@ html {
     border-style: outset;
     border-width: 3px;
     color: white;
-    padding: 11px 32px;
+    padding: 10px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 13px;
-    margin: 8px 8px;
+    font-size: 11px;
+    margin: 7px 8px;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
+}
+.buttonZ{
+    width: 400px;
+     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #4CAF50; /* Green */
+    border-style: outset;
+    border-width: 3px;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    margin: 7px 8px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.print{
+	width: 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #008000; 
+    border-style: outset;
+    border-width: 3px;
+    color: white;
+    padding: 4px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    font-weight:bold;
+    margin-left: 10px;
+    margin-top:0px;
+    margin-bottom:0;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.startstop{
+	margin:0;
+	padding:0;
+	text-align: justify;
+}
+.startstop:after {
+  content:'';
+  display:inline-block;
+  width:99.5%;/* generates an extra transparent line */
 }
 .buttonY {
 	width: 80px;
@@ -170,9 +219,9 @@ html {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 13px;
+    font-size: 11px;
     font-weight:bold;
-    margin: 8px 5px;
+    margin: 8px 5px 0 5px;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
@@ -214,12 +263,8 @@ html {
       font-size: 10px;
       margin: 0px;
       margin-bottom: 10px
-    };
-   #terminalIp {
-    width: 1px;
-    margin-bottom: 10px;
-    background-color: yellow;
-};
+    }
+  
     
 }
 
@@ -233,12 +278,30 @@ html {
       font-size: 10px;
       margin: 0px;
       margin-bottom: 10px
-    };
-   #terminalIp {
-    width: 1px;
-    margin-bottom: 10px;
-    background-color: yellow;
-	};
+    }
+    .aside{
+	background-color: rgb(204,204,204);
+    padding: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-width:5px;  
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: inset;
+    border-top-color: #4e5357;
+    border-left-color: #434547;
+    border-right-color: white;
+    border-bottom-color: whitesmoke;
+    padding: 15px;
+    margin-top: 0px;
+    height:55vh;
+    
+	}
+.menu {
+	font-size:13px
+}
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
@@ -277,9 +340,9 @@ html {
     border-bottom-color: whitesmoke;
     padding: 15px;
     margin-top: 10px;
-    height:66vh;
+    height:75vh;
     width: 26vw;
-    margin-left: 60px
+    margin-left: 70px
     
 	}
 .buttonX:hover {
@@ -296,8 +359,25 @@ html {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 13px;
-    margin: 8px 8px;
+    font-size: 11px;
+    margin: 5px 8px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.buttonZ{
+    width: 400px;
+     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #4CAF50; /* Green */
+    border-style: outset;
+    border-width: 3px;
+    color: white;
+    padding: 11px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    margin: 5px 8px;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
@@ -320,8 +400,12 @@ html {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
-
-	
+.color-green{
+	color:#4CAF50
+}
+.color-red{
+	color:#ff0000
+}
 	
 }
 
