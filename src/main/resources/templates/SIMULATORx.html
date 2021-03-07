@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>MultiPay ltd.</title>
+        <title th:text="${title}"></title>
         <link rel="stylesheet" href="css/style.css" />
         <script type="text/javascript" src="js/app.js" ></script>
 </head>
@@ -11,7 +11,7 @@
 
 <div class="header">
    
-    <img src="ipsx.png" alt="ipsx" width="170" height="110" /><h2>POINT OF SALE</h2> 
+    <img src="/dynamic/logo.png" alt="MultiPay" width="170" height="110" /><h2>POINT OF SALE</h2> 
     
 </div>
 <div class="alert" id="alert">
@@ -21,11 +21,8 @@
 <div class="row">
 
     <div class="col-2 menu">
-      <ul>
-        <li>MultiPay INTERFACE</li>
-        <li>easy to INTEGRATE</li>
-        <li>easy to USE</li>
-        <li>FAST</li>
+      <ul th:each="tile: ${tiles}">
+        <li th:text=${tile}></li>
       </ul>
     </div>
 
