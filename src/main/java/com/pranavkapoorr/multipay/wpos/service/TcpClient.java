@@ -1,4 +1,4 @@
-package com.pranavkapoorr.multipay.wpos;
+package com.pranavkapoorr.multipay.wpos.service;
 
 
 import java.net.InetSocketAddress;
