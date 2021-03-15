@@ -40,6 +40,14 @@ public class MainController {
     	 if(tileText != null) {
     		 model.addAttribute("tiles",Arrays.asList(tileText.split(",")));
     	 }
+    	 String leadText = config.getProperty("leadtext","<H2>Point Of Sale</H2>");
+    	 String finalText = null;
+    	 if(leadText.contains("png")||leadText.contains("jpg")||leadText.contains("jpeg")) {
+    		 finalText = "<img style='float:left' alt='MultiPay'  height='10' src='"+leadText+"'>";
+    	 }else {
+    		 finalText = "<h2>" + leadText + "</h2>";
+    	 }
+    	 model.addAttribute("leadtext", finalText);
     	 model.addAttribute("title", config.getProperty("title","MultiPay Ltd."));
         return "SIMULATORx";
      }

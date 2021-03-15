@@ -73,6 +73,7 @@ public class TcpClient extends AbstractActor {
 
     @Override
     public void postStop() throws Exception {
+    	session.sendMessage(new TextMessage("Connection Closed -> " + getTimeStamp()));
         System.out.println("stopping tcp client!!");//To change body of generated methods, choose Tools | Templates.
     }
     

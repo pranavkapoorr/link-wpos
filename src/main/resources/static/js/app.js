@@ -11,6 +11,7 @@ window.onload=function(){
 		var amount = document.getElementById('amount');
 		var gtmessage = document.getElementById('GTmessage');
 		var printFlag = document.getElementById('printFlag');
+		var timeout = document.getElementById('timeout');
 		var receiptField = document.getElementById('receiptMessageField');
 		var statusMessageField = document.getElementById('statusMessageField');
 		var payment = document.getElementById('payment');
@@ -29,6 +30,7 @@ window.onload=function(){
 		var linkIp = document.getElementById('linkIp');
 		var linkPort = document.getElementById('linkPort');
 		var alertbox = document.getElementById('alert');
+		var connstatus = document.getElementById('connstatus');
 		var print = document.getElementById('print');
 		function printElem(){
 		    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -77,23 +79,31 @@ window.onload=function(){
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'green';
 				document.getElementById('alert-msg').innerHTML = received_msg;
+				connstatus.style.backgroundColor = 'green';
+				connstatus.innerHTML = 'Connected';
 			}
 			else if(received_msg.includes('Connection Failed')){
 				connected = false;
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'red';
 				document.getElementById('alert-msg').innerHTML = received_msg;
+				connstatus.style.backgroundColor = 'red';
+				connstatus.innerHTML = 'Disconnected';
 			}
 			else if(received_msg.includes('Connection Closed')){
 				connected = false;
 				alertbox.style.display = 'block';
 				alertbox.style.backgroundColor = 'red';
 				document.getElementById('alert-msg').innerHTML = received_msg;
+				connstatus.style.backgroundColor = 'red';
+				connstatus.innerHTML = 'Disconnected';
 			}
 			//receiptField.innerHTML = received_msg;
 		};
 
 		ws.onclose = function() { 
+			connstatus.style.backgroundColor = 'green';
+			connstatus.innerHTML = 'Disconnected';
 			if(confirm("Connection Issues - Please Refresh Page!")){
 				location.reload();
 			}
@@ -103,7 +113,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Payment","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -116,7 +126,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Reversal","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -130,7 +140,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(amount.value.length > 0 && pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"Refund","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'","amount":"'+ amount.value +'","gtbit":"1","transactionReference":"'+ gtmessage.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -143,7 +153,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"PedBalance","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -156,7 +166,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"EndOfDay","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -169,7 +179,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"1","operationType":"PedStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"1","operationType":"PedStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -182,7 +192,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"1","operationType":"ProbePed","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"1","operationType":"ProbePed","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -195,7 +205,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"1","operationType":"LastTransactionStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'"}';
+					var msg = '{"printFlag":"1","operationType":"LastTransactionStatus","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -208,7 +218,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"FirstDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -221,7 +231,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"UpdateDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"UpdateDll","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');
@@ -234,7 +244,7 @@ window.onload=function(){
 			clearAll();
 			if(connected){
 				if(pedIp.value.length > 0 && pedPort.value.length > 0){
-					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"90"}';
+					var msg = '{"printFlag":"' + printFlag.value +'","operationType":"ReprintReceipt","pedIp":"'+ pedIp.value +'","pedPort":"'+ pedPort.value +'","timeOut":"'+ timeout.value +'"}';
 					ws.send(msg);
 				}else{
 					alert('check all the fields first!');

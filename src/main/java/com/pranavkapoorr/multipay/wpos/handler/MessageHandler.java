@@ -33,10 +33,8 @@ public class MessageHandler extends TextWebSocketHandler{
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message)
 			throws InterruptedException, IOException {
-		//System.err.println("sesion*************************** ->  "+session.getId() +  message.getPayload());
 		
 		String msg = message.getPayload();
-		//for(WebSocketSession webSocketSession : sessions) {
 			
 			if(isValidJSON(msg, mapper)) {
 				
@@ -44,44 +42,43 @@ public class MessageHandler extends TextWebSocketHandler{
 					String ip = msg.substring(msg.indexOf(":\"")+2,msg.indexOf("-")).trim();
 					String port = msg.substring(msg.indexOf("-")+1,msg.lastIndexOf("\""));
 					ActorRef tcpSender = system.actorOf(TcpClient.props(new InetSocketAddress(ip, Integer.valueOf(port)),session));
-					//ActorRef tcpSender = system.actorOf(tcpClient.props(new InetSocketAddress("192.168.86.60", 40001),session));
 					sessions.put(session,tcpSender);
 				}else if(msg.contains("Stop")){
 					ActorRef tcpSender = sessions.get(session);
 					tcpSender.tell(PoisonPill.getInstance(), ActorRef.noSender());//killing connection
 				}else if(msg.contains("Payment")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.payment(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
+					service.payment(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("Refund")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.refund(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
+					service.refund(json.getAmount(), json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("Reversal")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.reversal(json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session));
+					service.reversal(json.getPedIp(), json.getPedPort(), json.getTransactionReference(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("FirstDll")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.firstDLL(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.firstDLL(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("UpdateDll")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.updateDLL(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.updateDLL(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("ProbePed")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.probePed(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.probePed(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("PedBalance")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.xReport(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.xReport(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("EndOfDay")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.zReport(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.zReport(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("ReprintReceipt")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.reprintReceipt(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.reprintReceipt(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("PedStatus")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.pedStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.pedStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}else if(msg.contains("LastTransactionStatus")) {
 					IpsJson json = mapper.readValue(msg, IpsJson.class);
-					service.lastTransStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session));
+					service.lastTransStatus(json.getPedIp(), json.getPedPort(), json.getPrintFlag(),sessions.get(session),json.getTimeOut());
 				}
 			//}
 		}
@@ -89,9 +86,6 @@ public class MessageHandler extends TextWebSocketHandler{
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session){
-		//adding session to session list on connect
-		//sessions.put(session,ActorRef.noSender());
-		//System.err.println("session: "+session.getId());
 	}
 	
 	@Override

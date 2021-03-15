@@ -12,7 +12,7 @@
 
 <div class="header">
    
-    <img src="/dynamic/logo.png" alt="MultiPay" width="170" height="110" /><h2>POINT OF SALE</h2> 
+    <img src="/dynamic/logo.png" alt="MultiPay" width="170" height="110" /><div  th:utext="${leadtext}" th:remove="tag"></div>
     
 </div>
 <div class="alert" id="alert">
@@ -37,6 +37,7 @@
                  <option value="1">PRINT ON ECR</option>
                  <option value="0">PRINT ON PED</option>
              </select>
+             <input type="text" name="timeout" placeholder="TIMEOUT IN SEC" id="timeout"/>
        </div>
         
         <div class="buttonsPanel">
@@ -51,9 +52,10 @@
             <button type="button" class="buttonX" id="pedStatus">PED STATUS</button>
             <button type="button" class="buttonX" id="lastTransStatus">LAST TRANS STATUS</button>
             <button type="button" class="buttonZ" id="probePed">PROBE PED</button>
-            <div id="result"></div>
+
             <div class="startstop">
             <button type="button" class="buttonY color-green" id="start">Start</button>
+            <button  class="buttonY" disabled="disabled" id="connstatus">Disconnected</button>
             <button type="button" class="buttonY color-red" id="stop">Stop</button>
             </div>
         </div>

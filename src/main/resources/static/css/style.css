@@ -226,6 +226,10 @@ html {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+#connstatus {
+	width: 120px;
+	cursor: help;
+}
 
 .color-green{
 	color:#4CAF50
@@ -249,7 +253,9 @@ html {
     border-right-color: white;
     border-right-width: 1px;
     border-bottom-color: #959ca2;
+    resize:none;
 }
+
    
 
 
